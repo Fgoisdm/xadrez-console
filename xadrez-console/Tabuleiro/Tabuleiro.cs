@@ -1,19 +1,17 @@
-﻿using System;
-
-
-namespace tabuleiro
+﻿namespace tabuleiro
 {
     class Tabuleiro
     {
-        public int linha { get; set; }
-        public int coluna { get; set; }
+
+        public int linhas { get; set; }
+        public int colunas { get; set; }
         private Peca[,] pecas;
 
-        public Tabuleiro(int linha, int coluna)
+        public Tabuleiro(int linhas, int colunas)
         {
-            this.linha = linha;
-            this.coluna = coluna;
-            pecas = new Peca[linha, coluna];
+            this.linhas = linhas;
+            this.colunas = colunas;
+            pecas = new Peca[linhas, colunas];
         }
 
         public Peca peca(int linha, int coluna)
@@ -26,15 +24,13 @@ namespace tabuleiro
             return pecas[pos.linha, pos.coluna];
         }
 
-        //Testando se uma peça existe em uma dada posição
         public bool existePeca(Posicao pos)
         {
             validarPosicao(pos);
             return peca(pos) != null;
         }
 
-        //Checa se a posição selecionada está disponivel, e após isso coloca a peça na posição
-        public void colocaPeca(Peca p, Posicao pos)
+        public void colocarPeca(Peca p, Posicao pos)
         {
             if (existePeca(pos))
             {
@@ -44,7 +40,6 @@ namespace tabuleiro
             p.posicao = pos;
         }
 
-        //Retira uma peça de uma dada posição, retornando a mesma
         public Peca retirarPeca(Posicao pos)
         {
             if (peca(pos) == null)
@@ -53,15 +48,13 @@ namespace tabuleiro
             }
             Peca aux = peca(pos);
             aux.posicao = null;
-            //Marca como null a posição do tabuleiro onde aquela peça estava, e retorna a peça
             pecas[pos.linha, pos.coluna] = null;
             return aux;
         }
 
-        //Testa se a posição é valida dentro doa tabuleiro
         public bool posicaoValida(Posicao pos)
         {
-            if (pos.linha < 0 || pos.linha > linha || pos.coluna < 0 || pos.coluna > coluna)
+            if (pos.linha < 0 || pos.linha >= linhas || pos.coluna < 0 || pos.coluna >= colunas)
             {
                 return false;
             }
@@ -75,7 +68,5 @@ namespace tabuleiro
                 throw new TabuleiroException("Posição inválida!");
             }
         }
-
-
     }
 }
